@@ -26,9 +26,9 @@ RUN a2enmod proxy_connect
 RUN a2enmod proxy_html
 RUN a2enmod proxy_hcheck
 RUN a2enmod lbmethod_byrequests
-RUN cgi
+RUN a2enmod cgi
 
-#ssl
+# ssl
 RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
     "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=server_IP_address" \
     -keyout /etc/ssl/mywebsite-selfsigned.key -out /etc/ssl/certs/mywebsite-selfsigned.crt
@@ -42,46 +42,48 @@ RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
     -keyout /etc/ssl/final-selfsigned.key -out /etc/ssl/certs/final-selfsigned.crt
 
 # create group and users
-RUN adduser usercat
-RUN passwd -d usercat
-RUN usermod -aG sudo usercat
-RUN adduser userbear
-RUN passwd -d userbear
-RUN usermod -aG sudo userbear
 RUN groupadd cit384
+RUN adduser usercat
+RUN usermod -aG cit384 usercat
+RUN adduser userbear
+RUN usermod -aG cit384 userbear
 
 # copy files (html conf md)
-# COPY hosts /etc/hosts
-# COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY mywebsite.cit384 /etc/apache2/sites-availablemywebsite.cit384
-COPY special.cit384 /etc/apache2/sites-available/special.cit384
-COPY final.cit384 /etc/apache2/sites-available/final.cit384
+COPY hosts /etc/hosts
+COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY mywebsite.cit384.conf /etc/apache2/sites-available/mywebsite.cit384.conf
+COPY special.cit384.conf /etc/apache2/sites-available/special.cit384.conf
+COPY final.cit384.conf /etc/apache2/sites-available/final.cit384.conf
 
-COPY usercat.html /home/usercat/public_html/usercat.html
-COPY userbear.html /home/userbear/public_html/userbear.html
-COPY mywebsite.html /var/www/mywebsite.cit384/public_html/mywebsite.html
-COPY special.html /var/www/special.cit384/public_html/special.html
+COPY usercat.jpg /home/usercat/public_html/usercat.jpg
+COPY userbear.jpg /home/userbear/public_html/userbear.jpg
+COPY usercat.html /home/usercat/public_html/index.html
+COPY userbear.html /home/userbear/public_html/index.html
+COPY style.css /home/usercat/public_html/style.css
+COPY style.css /home/userbear/public_html/style.css
+COPY mywebsite.html /var/www/mywebsite.cit384/public_html/index.html
+COPY special.html /var/www/special.cit384/public_html/index.html
+COPY final.html /var/www/final.cit384/public_html/index.html
 
-COPY submission.txt /home/submission.txt
-COPY submission.md /var/www/final.cit384/public_html/final.html
-COPY .htaccess /var/www/html/final.cit384/submission
-COPY .htpasswd /usr/local/bin
-COPY .htpasswd /home/submission.txt
+COPY .htpasswd /etc/apache2/.htpasswd
+COPY .htaccess /var/www/final.cit384/public_html/submission/.htaccess
+COPY submission.md /var/www/final.cit384/public_html/submission/submission.md
+COPY submission.txt /home/submission.txt 
 
-RUN sudo chown -R $USER:$USER /var/www/mywebsite.384/public_html
+# cgi
+WORKDIR /home/usercat/public_html/cgi-bin
+COPY script.cgi /home/usercat/public_html/cgi-bin/script.cgi
+RUN chmod a+x script.cgi
+# cgi
+
+RUN sudo chown -R $USER:$USER /var/www/mywebsite.cit384/public_html
 RUN sudo chown -R $USER:$USER /var/www/special.cit384/public_html
 RUN sudo chown -R $USER:$USER /var/www/final.cit384/public_html
 RUN sudo chmod -R 755 /var/www
 
-####################################
-
-# parts 7 8 9 10 go here
-
-RUN sudo a2ensite mywebsite.cit384
-RUN sudo a2ensite special.cit384
-RUN sudo a2ensite final.cit384
-
-#############################################
+RUN sudo a2ensite mywebsite.cit384.conf
+RUN sudo a2ensite special.cit384.conf
+RUN sudo a2ensite final.cit384.conf
 
 # the end uwu
 LABEL Maintainer: "kimberly.rebamonte.227@my.csun.edu"

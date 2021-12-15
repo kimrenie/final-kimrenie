@@ -1,8 +1,8 @@
 Kimberly Rebamonte
 
 1. What is the difference between Docker image and Docker container?
-    A docker image is a file template that holds the initial code and tools of an environment.          <!-- answer -->
-    A docker container relies on the usage of a docker image template in order to run our applications. <!-- answer -->
+    A docker image is a file template that holds the initial source code, libraries, and tools of an environment.   <!-- answer -->
+    A docker container relies on the usage of a docker image template in order to run our applications.             <!-- answer -->
 
 2. What is the command to build a docker image named `cit384-final`?
     * docker build -t cit384-final .                <!-- answer -->
@@ -12,15 +12,15 @@ Kimberly Rebamonte
 
 4. When running Docker commands there are many options you can use for example to run a container named cit384 with an ubuntu image the command is: `docker run --name cit384 ubuntu`. What do the following options do? 
    1. --name: Names my container cit384
-   2. -d: Runs containers in detached mode.                                                         <!-- answer -->
+   2. -d: Runs containers in detached mode/in the background.                                       <!-- answer -->
    3. --rm: Automatically removes the container and its file system once we exit the container.     <!-- answer -->
-   4. -p: Allows us to specify a port                                                               <!-- answer -->
+   4. -p: Allows us to specify a port for hosting                                                   <!-- answer -->
    5. --add-host: Allows us to set a custom host to IP override.                                    <!-- answer -->
-   6. -it: Creates an interactive terminal                                                           <!-- answer -->
-   7. -v: Allows us create a space (volume) seperate from the filesystem. Also allows us to accesses these volumes.   <!-- answer -->
+   6. -it: Creates an interactive terminal                                                          <!-- answer -->
+   7. -v: Allows us create/bind a space (volume) seperate from the filesystem. Also allows us to accesses these volumes.   <!-- answer -->
 
 5. What is the difference between `-` and `--` in command line parameter?
-    *                                                   <!-- answer -->
+    *  '-' is used for single letter flags while '--' allows us to use the full name format.        <!-- answer -->
 
 6. In the following code block, provide the git instructions necessary to add a new file to the remote repository: git@github.com:org/project.git (You should presume that you don't have a copy of this repository on your local computer.)
    ```
@@ -50,7 +50,7 @@ Kimberly Rebamonte
     * a2dissite                                                 <!-- answer -->
 
 11. What happens when a user enters a URL into the browser?
-    * The IP of the server we are trying to reach is identified with DNS lookup and the browser then makes a TCP connection with this server. After this is successful, an HTTP request is sent in order to ask for the resources identified within the URL. This request is processed, approved, and the website is displayed on the user's browser!                                                   <!-- answer -->
+    * The IP of the server we are trying to reach is identified with DNS lookup and the browser then makes a TCP connection with this server. After this is successful, an HTTP request is sent in order to ask for the resources identified within the URL. This request is processed and approved through TCP/IP and the website is displayed on the user's browser!                                                   <!-- answer -->
 
 ---
 You may earn extra credit in this part of the assignment by: 
