@@ -1,6 +1,8 @@
-USER = krr74113
-NAME = "Kimberly Rebamonte"
-GITHUB = https://github.com/CIT384
+#!/bin/bash
+
+USER=krr74113
+NAME="Kimberly Rebamonte"
+GITHUB=https://github.com/CIT384
 
 echo "Content-type: text/html"
 echo "x-final.cit384:" $GITHUB

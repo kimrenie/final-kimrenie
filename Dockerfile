@@ -30,16 +30,20 @@ RUN a2enmod cgi
 
 # ssl
 RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
-    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=server_IP_address" \
-    -keyout /etc/ssl/mywebsite-selfsigned.key -out /etc/ssl/certs/mywebsite-selfsigned.crt
+    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=mywebsite.cit384" \
+    -keyout /etc/ssl/private/mywebsite-selfsigned.key -out /etc/ssl/certs/mywebsite-selfsigned.crt
 
 RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
-    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=server_IP_address" \
-    -keyout /etc/ssl/special-selfsigned.key -out /etc/ssl/certs/special-selfsigned.crt
+    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=special.cit384" \
+    -keyout /etc/ssl/private/special-selfsigned.key -out /etc/ssl/certs/special-selfsigned.crt
 
 RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
-    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=server_IP_address" \
-    -keyout /etc/ssl/final-selfsigned.key -out /etc/ssl/certs/final-selfsigned.crt
+    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=final.cit384" \
+    -keyout /etc/ssl/private/final-selfsigned.key -out /etc/ssl/certs/final-selfsigned.crt
+
+RUN openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj \
+    "/C=US/ST=CA/L=Los Angeles/O=csun_owo/OU=uwu/CN=anotherone" \
+    -keyout /etc/ssl/private/anotherone-selfsigned.key -out /etc/ssl/certs/anotherone-selfsigned.crt
 
 # create group and users
 RUN groupadd cit384
@@ -48,12 +52,13 @@ RUN usermod -aG cit384 usercat
 RUN adduser userbear
 RUN usermod -aG cit384 userbear
 
-# copy files (html conf md)
+# copy files (html conf etc)
 COPY hosts /etc/hosts
 COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY mywebsite.cit384.conf /etc/apache2/sites-available/mywebsite.cit384.conf
 COPY special.cit384.conf /etc/apache2/sites-available/special.cit384.conf
 COPY final.cit384.conf /etc/apache2/sites-available/final.cit384.conf
+COPY anotherone.cit384.conf /etc/apache2/sites-available/anotherone.cit384.conf
 
 COPY usercat.jpg /home/usercat/public_html/usercat.jpg
 COPY userbear.jpg /home/userbear/public_html/userbear.jpg
@@ -64,6 +69,7 @@ COPY style.css /home/userbear/public_html/style.css
 COPY mywebsite.html /var/www/mywebsite.cit384/public_html/index.html
 COPY special.html /var/www/special.cit384/public_html/index.html
 COPY final.html /var/www/final.cit384/public_html/index.html
+COPY anotherone.html /var/www/anotherone.cit384/public_html/index.html
 
 COPY .htpasswd /etc/apache2/.htpasswd
 COPY .htaccess /var/www/final.cit384/public_html/submission/.htaccess
@@ -73,8 +79,7 @@ COPY submission.txt /home/submission.txt
 # cgi
 WORKDIR /home/usercat/public_html/cgi-bin
 COPY script.cgi /home/usercat/public_html/cgi-bin/script.cgi
-RUN chmod a+x script.cgi
-# cgi
+RUN sudo chmod a+x /home/usercat/public_html/cgi-bin/script.cgi
 
 RUN sudo chown -R $USER:$USER /var/www/mywebsite.cit384/public_html
 RUN sudo chown -R $USER:$USER /var/www/special.cit384/public_html
